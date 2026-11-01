@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión - Vendedor</title>
+    <style>
+        :root { --green:#176b45; --deep:#104c34; --ink:#1c2a22; --muted:#718078; }
+        * { box-sizing:border-box; }
+        body { position:relative; isolation:isolate; margin:0; min-height:100vh; padding:20px; display:grid; place-items:center; font-family:'Segoe UI',Arial,sans-serif; color:var(--ink); background:radial-gradient(ellipse at 10% 15%,#dcefdc 0,transparent 27%),radial-gradient(ellipse at 90% 85%,#ffe4c6 0,transparent 28%),radial-gradient(#174b2d0b 1px,transparent 1px),#f7f5ec; background-size:auto,auto,25px 25px,auto; }
+        body::before { content:""; position:fixed; inset:-14px; z-index:-1; pointer-events:none; background:url('/static/images/fondo_villavicencio.jpg') center 45%/cover no-repeat; filter:blur(12px); opacity:.38; }
+        .contenedor { position:relative; overflow:hidden; width:100%; max-width:430px; padding:42px 38px 38px; background:rgba(255,255,255,.96); border:1px solid #e7eee7; border-radius:24px; box-shadow:0 24px 65px #1b3e2921; }
+        .contenedor::before { content:""; position:absolute; inset:0 0 auto; height:7px; background:linear-gradient(90deg,#176b45,#71a96d,#f29b38); }
+        .marca-login { text-align:center; font-size:13px; font-weight:800; letter-spacing:.08em; color:var(--green); }
+        .icono-login { display:grid; place-items:center; width:58px; height:58px; margin:0 auto 14px; border-radius:18px; background:#eaf4e9; font-size:29px; }
+        h2 { text-align:center; color:var(--deep); margin:8px 0; font-size:27px; letter-spacing:-.03em; }
+        .intro-login { margin:0 0 25px; text-align:center; color:var(--muted); font-size:14px; }
+        .campo { margin-bottom:17px; }
+        label { display:block; margin-bottom:7px; font-weight:700; color:#34483c; font-size:14px; }
+        input[type="text"],input[type="password"] { width:100%; min-height:46px; padding:11px 13px; border:1px solid #d9e2da; border-radius:10px; font:inherit; }
+        input:focus { outline:3px solid #176b4520; border-color:var(--green); }
+        .btn-ingresar { color:white; background:var(--green); border:0; padding:13px; width:100%; border-radius:10px; font:inherit; font-weight:800; cursor:pointer; margin-top:6px; }
+        .btn-ingresar:hover { background:var(--deep); }
+        .registro-link { text-align:center; margin-top:20px; font-size:14px; color:var(--muted); }
+        .registro-link a { color:var(--green); font-weight:800; text-decoration:none; }
+        .error-alerta { color:#a12a20; background:#fff0ee; border:1px solid #f5d0cb; padding:11px; border-radius:10px; text-align:center; margin-bottom:15px; font-size:14px; }
+        .volver { display:block; text-align:center; margin-top:20px; font-size:13px; color:var(--muted); text-decoration:none; }
+        @media(max-width:460px) { .contenedor{padding:30px 22px;border-radius:18px} }
+    </style>
+</head>
+<body>
+
+<div class="contenedor">
+    <div class="icono-login">🧑‍🍳</div>
+    <div class="marca-login">AMBULANTES VILLAVICENCIO</div>
+    <h2>Ingreso Vendedores</h2>
+    <p class="intro-login">Entra para administrar tu puesto y menú.</p>
+    
+    {% if error %}
+        <div class="error-alerta">{{ error }}</div>
+    {% endif %}
+
+    <form action="/login" method="POST">
+        <div class="campo">
+            <label>Nombre del Puesto:</label>
+            <input type="text" name="nombre_puesto" placeholder="Ej. Hamburguesas El Mono" required>
+        </div>
+
+        <div class="campo">
+            <label>Contraseña:</label>
+            <input type="password" name="contrasena" placeholder="Ingresa tu clave" required>
+        </div>
+
+        <button type="submit" class="btn-ingresar">Ingresar al Panel</button>
+    </form>
+
+    <div class="registro-link">
+        ¿No tienes cuenta? <a href="/registro">Regístrate aquí</a>
+    </div>
+    <a href="/" class="volver">⬅️ Volver al Inicio</a>
+</div>
+
+</body>
+</html>

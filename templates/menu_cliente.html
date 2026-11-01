@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú del vendedor</title>
+
+    <style>
+        :root { --green:#176b45; --deep:#104c34; --ink:#1d2b22; --muted:#718078; }
+        * { box-sizing:border-box; }
+        body { position:relative; isolation:isolate; margin:0; padding:28px 18px 60px; font-family:'Segoe UI',Arial,sans-serif; color:var(--ink); background:radial-gradient(ellipse at 5% 5%,#dcefdc 0,transparent 24%),radial-gradient(ellipse at 98% 45%,#ffe7c9 0,transparent 23%),radial-gradient(#174b2d0a 1px,transparent 1px),#f7f5ec; background-size:auto,auto,26px 26px,auto; }
+        body::before { content:""; position:fixed; inset:-14px; z-index:-1; pointer-events:none; background:url('/static/images/fondo_villavicencio.jpg') center 45%/cover no-repeat; filter:blur(12px); opacity:.38; }
+        .contenedor { max-width:1100px; margin:auto; }
+        .encabezado { position:relative; overflow:hidden; display:flex; align-items:center; gap:24px; padding:30px; min-height:200px; color:white; background:radial-gradient(circle at 95% 90%,#ffffff17 0 110px,transparent 111px),radial-gradient(circle at 92% 10%,#f29b3830 0 60px,transparent 61px),linear-gradient(120deg,#176b45,#104c34); border-radius:24px; box-shadow:0 15px 35px #173d291c; margin-bottom:34px; }
+        .foto-negocio { width:140px; height:140px; flex:0 0 140px; object-fit:cover; border:4px solid #ffffff55; border-radius:20px; }
+        .sin-foto-negocio { display:grid; place-items:center; width:140px; height:140px; flex:0 0 140px; border-radius:20px; background:#ffffff1e; font-size:54px; }
+        .datos-negocio { position:relative; z-index:1; }
+        .eyebrow { margin:0 0 7px; color:#d4ead9; font-size:12px; font-weight:800; letter-spacing:.12em; text-transform:uppercase; }
+        h1 { color:white; margin:0 0 8px; font-size:clamp(27px,4vw,38px); letter-spacing:-.03em; }
+        .datos-negocio p { margin:5px 0; color:#e2efe5; }
+        .estado-negocio { display:inline-flex; align-items:center; gap:7px; margin-top:10px; padding:7px 11px; color:white; background:#ffffff20; border:1px solid #ffffff35; border-radius:99px; font-size:13px; font-weight:700; }
+        .seccion-titulo { display:flex; align-items:end; justify-content:space-between; margin:0 0 18px; }
+        .seccion-titulo h2 { margin:0; font-size:26px; letter-spacing:-.03em; }
+        .seccion-titulo p { margin:0; color:var(--muted); }
+        .productos { display:grid; grid-template-columns:repeat(auto-fit,minmax(235px,1fr)); gap:20px; }
+        .producto { overflow:hidden; display:flex; flex-direction:column; background:rgba(255,255,255,.97); border:1px solid #e8eee8; border-radius:19px; box-shadow:0 8px 22px #233c2d0d; transition:transform .18s,box-shadow .18s; }
+        .producto:hover { transform:translateY(-4px); box-shadow:0 15px 30px #233c2d15; }
+        .producto img,.producto-foto-vacia { width:100%; height:180px; object-fit:cover; }
+        .producto-foto-vacia { display:grid; place-items:center; background:linear-gradient(135deg,#edf5e9,#fff2df); font-size:54px; }
+        .producto-info { padding:17px; display:flex; flex:1; flex-direction:column; }
+        .producto h3 { margin:0 0 8px; font-size:19px; }
+        .producto-descripcion { margin:0 0 14px; color:#64736a; line-height:1.5; font-size:14px; }
+        .categoria { align-self:flex-start; margin:auto 0 12px; padding:5px 9px; color:#366346; background:#eaf4e9; border-radius:99px; font-size:12px; font-weight:700; }
+        .precio { margin:0; color:var(--green); font-weight:800; font-size:21px; }
+        .volver { color:var(--green); text-decoration:none; font-weight:700; }
+        .sin-productos { padding:50px 24px; text-align:center; background:white; border:1px dashed #cad9cc; border-radius:18px; }
+        .sin-productos span { font-size:40px; }
+        .botones-navegacion { display:flex; justify-content:space-between; gap:10px; margin-bottom:18px; flex-wrap:wrap; }
+        .btn-volver,.btn-salir { display:inline-block; padding:11px 16px; border-radius:10px; text-decoration:none; font-weight:700; transition:.18s; }
+        .btn-volver { color:var(--green); background:#e6f0e6; }
+        .btn-volver:hover { background:#d6e8d8; }
+        .btn-salir { color:#7b3c31; background:#f8e9e5; }
+        .btn-salir:hover { background:#f2d9d3; }
+        @media(max-width:600px) { body{padding:14px 12px 40px}.encabezado{align-items:flex-start;padding:20px;gap:14px;border-radius:19px;min-height:0}.foto-negocio,.sin-foto-negocio{width:78px;height:78px;flex-basis:78px;border-radius:14px}.sin-foto-negocio{font-size:32px}.seccion-titulo{align-items:flex-start;flex-direction:column;gap:5px;margin-bottom:15px}.productos{grid-template-columns:1fr 1fr;gap:12px}.producto img,.producto-foto-vacia{height:138px}.producto-info{padding:14px}.producto h3{font-size:16px}.precio{font-size:18px}.botones-navegacion{margin-bottom:14px}.btn-volver,.btn-salir{padding:10px 12px;font-size:13px} }
+        @media(max-width:480px) { .encabezado{display:block;padding:20px}.foto-negocio,.sin-foto-negocio{margin-bottom:14px}.productos{grid-template-columns:1fr}.producto img,.producto-foto-vacia{height:185px}.producto-info{padding:16px}.producto h3{font-size:18px}.precio{font-size:20px}.botones-navegacion{display:grid;grid-template-columns:1fr 1fr}.btn-volver,.btn-salir{text-align:center} }
+    </style>
+</head>
+
+<body>
+
+<div class="contenedor">
+
+    <div class="botones-navegacion">
+
+    <a href="/mapa_clientes" class="btn-volver">
+        ← Volver al mapa
+    </a>
+
+    <a href="/" class="btn-salir">
+        Salir de clientes
+    </a>
+
+</div>
+
+    <div class="encabezado">
+        {% if vendedor.url_foto_puesto %}
+            <img class="foto-negocio" src="{{ url_for('static', filename='uploads/' ~ vendedor.url_foto_puesto) }}" alt="Foto de {{ vendedor.nombre_puesto }}">
+        {% else %}
+            <div class="sin-foto-negocio">🏪</div>
+        {% endif %}
+        <div class="datos-negocio">
+            <p class="eyebrow">Puesto local</p>
+            <h1>{{ vendedor.nombre_puesto }}</h1>
+            <p>{{ vendedor.tipo_negocio }} · {{ vendedor.horario or 'Horario no disponible' }}</p>
+            <span class="estado-negocio">{% if vendedor.vendiendo_hoy %}🟢 Está vendiendo{% else %}🔴 No salió a vender{% endif %}</span>
+        </div>
+    </div>
+
+    <div class="seccion-titulo">
+        <h2>Productos disponibles</h2>
+        <p>Explora el menú de este puesto</p>
+    </div>
+
+    {% if productos %}
+
+        <div class="productos">
+
+            {% for producto in productos %}
+
+                <div class="producto">
+
+                    {% if producto.foto_producto %}
+                        <img src="{{ url_for('static', filename='uploads/' ~ producto.foto_producto) }}"
+                             alt="{{ producto.nombre_p }}">
+                    {% else %}
+                        <div class="producto-foto-vacia" aria-hidden="true">🍽️</div>
+                    {% endif %}
+
+                    <div class="producto-info">
+                        <h3>{{ producto.nombre_p }}</h3>
+                        <p class="producto-descripcion">{{ producto.descripcion or 'Preparado con dedicación.' }}</p>
+                        <span class="categoria">{{ producto.nombre_categoria or 'Sin categoría' }}</span>
+                        <p class="precio">${{ producto.precio }}</p>
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% else %}
+
+        <div class="sin-productos">
+            <span>🧺</span>
+            <h3>Este vendedor todavía no tiene productos publicados.</h3>
+        </div>
+
+    {% endif %}
+
+</div>
+
+</body>
+</html>

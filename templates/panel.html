@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración - {{ nombre_vendedor }}</title>
+    <style>
+        :root { --primary: #1a73e8; --primary-hover: #1557b0; --success: #2ecc71; --danger: #e74c3c; --bg: #f8f9fa; --dark: #2c3e50; --text: #333; }
+        body { font-family: 'Segoe UI', system-ui, sans-serif; background-color: var(--bg); color: var(--text); margin: 0; padding: 0; display: flex; min-height: 100vh; }
+        
+        .sidebar { width: 260px; background-color: var(--dark); color: white; padding: 30px 20px; display: flex; flex-direction: column; box-shadow: 2px 0 10px rgba(0,0,0,0.1); }
+        .sidebar h2 { font-size: 20px; margin-top: 0; border-bottom: 1px solid #4f5d73; padding-bottom: 15px; text-align: center; color: #3498db; }
+        .perfil-box { text-align: center; margin: 20px 0; }
+        .foto-perfil { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 3px solid var(--primary); background: #eee; }
+        .sidebar nav { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
+        .nav-btn { background: none; border: none; color: #cbd5e1; padding: 12px 15px; text-align: left; font-size: 16px; border-radius: 6px; cursor: pointer; transition: 0.2s; text-decoration: none; }
+        .nav-btn.active, .nav-btn:hover { background-color: var(--primary); color: white; }
+        .btn-logout-side { margin-top: auto; background-color: #c0392b; color: white; text-align: center; font-weight: bold; }
+
+        .main-content { flex: 1; padding: 40px; box-sizing: border-box; overflow-y: auto; }
+        header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 2px solid #eee; padding-bottom: 15px; }
+        header h1 { margin: 0; color: var(--dark); font-size: 28px; }
+        
+        .grid-layout { display: grid; grid-template-columns: 1fr 1.2fr; gap: 30px; }
+        .card { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #eef2f5; height: fit-content; }
+        .card h3 { margin-top: 0; color: var(--dark); font-size: 20px; border-bottom: 2px solid var(--bg); padding-bottom: 10px; margin-bottom: 15px; }
+        
+        .campo { margin-bottom: 18px; }
+        label { display: block; margin-bottom: 6px; font-weight: 600; color: #555; font-size: 14px; }
+        input[type="text"], input[type="number"], textarea { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px; box-sizing: border-box; font-size: 15px; }
+        .btn-submit { background-color: var(--success); color: white; border: none; padding: 14px; width: 100%; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; }
+
+        .filtro-contenedor { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+        .btn-filtro { background-color: #eef2f5; border: 1px solid #cbd5e1; color: #475569; padding: 8px 14px; border-radius: 20px; font-size: 13px; font-weight: bold; cursor: pointer; transition: 0.2s; }
+        .btn-filtro.active, .btn-filtro:hover { background-color: var(--primary); color: white; border-color: var(--primary); }
+
+        .lista-productos { display: flex; flex-direction: column; gap: 15px; max-height: 500px; overflow-y: auto; }
+        .producto-row { display: flex; justify-content: space-between; align-items: center; background: var(--bg); padding: 15px; border-radius: 8px; border-left: 5px solid var(--primary); }
+        .producto-row.hidden { display: none; }
+        .prod-info h4 { margin: 0 0 5px 0; font-size: 16px; color: var(--dark); }
+        .prod-info p { margin: 0; font-size: 13px; color: #7f8c8d; }
+        .prod-meta { display: flex; align-items: center; gap: 15px; }
+        .badge-precio { font-weight: bold; color: var(--primary); background: rgba(26,115,232,0.1); padding: 5px 10px; border-radius: 20px; font-size: 14px; }
+        .badge-cat { font-size: 11px; background: #cbd5e1; padding: 3px 8px; border-radius: 4px; font-weight: bold; color: #475569; text-transform: uppercase; }
+        .btn-delete { background-color: transparent; border: 1px solid #e74c3c; color: var(--danger); padding: 8px 12px; border-radius: 6px; cursor: pointer; text-decoration: none; font-weight: bold; }
+        .btn-delete:hover { background-color: var(--danger); color: white; }
+        .btn-edit {
+    background: #fff;
+    border: 1px solid #1a73e8;
+    color: #1a73e8;
+    padding: 7px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.modal-edicion {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: rgba(0, 0, 0, 0.55);
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.modal-edicion-contenido {
+    background: white;
+    width: 100%;
+    max-width: 450px;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+}
+
+.modal-edicion-contenido textarea,
+.modal-edicion-contenido input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+    margin: 6px 0 15px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+}
+
+.modal-botones {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+        :root { --primary:#176b45; --primary-hover:#104c34; --success:#247a4b; --danger:#d9534f; --bg:#f4f6f1; --dark:#173c2a; --text:#26372d; }
+        body { position:relative; isolation:isolate; background:radial-gradient(ellipse at 88% 8%,#ffe7c4 0,transparent 22%),radial-gradient(ellipse at 45% 95%,#e0eedf 0,transparent 28%),#f5f5ed; color:var(--text); }
+        body::before { content:""; position:fixed; inset:-14px; z-index:-1; pointer-events:none; background:url('/static/images/fondo_villavicencio.jpg') center 45%/cover no-repeat; filter:blur(12px); opacity:.38; }
+        .sidebar { background:linear-gradient(165deg,#173c2a,#102c20); padding:28px 18px; }
+        .sidebar h2 { color:#d4ead9; border-color:#ffffff25; }
+        .foto-perfil { border-color:#6eaf83; }
+        .nav-btn { border-radius:10px; }
+        .nav-btn.active,.nav-btn:hover { background:#ffffff1c; color:white; }
+        .btn-logout-side { background:#a63f38; }
+        .main-content { padding:clamp(20px,4vw,42px); background:radial-gradient(#174b2d08 1px,transparent 1px); background-size:24px 24px; }
+        header { border-color:#e2e9e2; }
+        header h1 { color:var(--dark); letter-spacing:-.03em; }
+        .card { border-color:#e6ece5; border-radius:17px; box-shadow:0 9px 25px rgba(30,58,40,.07); }
+        .card h3 { color:var(--dark); }
+        input[type="text"],input[type="number"],textarea,select { border-color:#d8e1d9; border-radius:9px; }
+        input:focus,textarea:focus,select:focus { outline:3px solid #176b4520; border-color:var(--primary); }
+        .btn-submit { background:var(--primary); border-radius:9px; transition:background .15s,transform .15s; }
+        .btn-submit:hover { background:var(--primary-hover); transform:translateY(-1px); }
+        .producto-row { background:#f8faf7; border-left-color:#4b9a66; border-radius:11px; }
+        .btn-edit { border-color:#176b45; color:#176b45; border-radius:9px; }
+        .btn-edit:hover { background:#eaf4e9; }
+        .btn-delete { border-radius:9px; }
+        .modal-edicion-contenido { border-radius:18px; }
+        @media(max-width:900px) { body{display:block;min-height:100svh}.sidebar{width:100%;padding:14px 18px;flex-direction:row;align-items:center;gap:14px}.sidebar h2{font-size:16px;margin:0;border:0;padding:0}.perfil-box{display:none}.sidebar nav{flex-direction:row;gap:6px;margin:0 0 0 auto}.nav-btn{padding:9px 11px;font-size:13px}.btn-logout-side{margin-top:0}.main-content{padding:20px}.grid-layout{grid-template-columns:1fr;gap:18px}header{flex-wrap:wrap;gap:10px} }
+        @media(max-width:560px) { .sidebar{flex-wrap:wrap;padding:12px 14px}.sidebar h2{width:100%;text-align:left}.sidebar nav{width:100%;margin:0;justify-content:space-between}.nav-btn{font-size:12px;padding:9px 8px}.main-content{padding:13px}.main-content > header{margin-bottom:17px}.main-content > header h1{font-size:23px}.main-content > .card{flex-direction:column;align-items:flex-start!important;padding:19px}.main-content > .card form{width:100%;justify-content:flex-start!important}.card{padding:19px}.producto-row{align-items:flex-start;gap:12px;flex-direction:column}.prod-meta{width:100%;justify-content:flex-end}.lista-productos{max-height:none}.modal-edicion-contenido{padding:21px}.modal-botones button{min-height:42px} }
+
+
+
+
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <h2>Ambulantes App</h2>
+        <div class="perfil-box">
+            <img src="{% if foto_puesto %}/static/uploads/{{ foto_puesto }}{% else %}https://placehold.co{% endif %}" class="foto-perfil" alt="Foto del Puesto">
+            <p style="margin: 10px 0 0 0; font-weight: bold;">{{ nombre_vendedor }}</p>
+        </div>
+        <nav>
+            <a href="/panel" class="nav-btn active">📋 Mi Menú</a>
+            <a href="/" class="nav-btn" style="background:#34495e; text-align:center; margin-top: 15px;">🗺️ Ver el Mapa</a>
+            <a href="/logout" class="nav-btn btn-logout-side">🚪 Cerrar Sesión</a>
+        </nav>
+    </div>
+
+    <div class="main-content">
+        <header>
+            <h1>Panel de Control</h1>
+            <span style="font-weight: bold; color: #7f8c8d;">ID Registro: #{{ id_vendedor }}</span>
+        </header>
+        
+        <div class="card" style="margin-bottom: 25px; display:flex; align-items:center; justify-content:space-between; gap:18px;">
+            <div>
+                <h3 style="margin-bottom:6px;">📍 Asistencia de hoy</h3>
+                <p style="margin:0; color:#64748b;">Indica si saliste a vender. Este estado aparece en tu ficha del mapa.</p>
+            </div>
+            <form action="/actualizar_asistencia" method="POST" style="display:flex; align-items:center; gap:12px;">
+                <input type="hidden" name="esta_vendiendo" value="0">
+                <label style="display:flex; align-items:center; gap:8px; margin:0; cursor:pointer;">
+                    <input type="checkbox" name="esta_vendiendo" value="1" {% if esta_vendiendo %}checked{% endif %} onchange="this.form.submit()">
+                    <span style="font-weight:bold; color:{% if esta_vendiendo %}#188038{% else %}#d93025{% endif %};">{% if esta_vendiendo %}Estoy vendiendo{% else %}No salí a vender{% endif %}</span>
+                </label>
+            </form>
+        </div>
+
+        <div class="grid-layout">
+            <div class="card">
+                <h3>➕ Agregar Producto Personalizado</h3>
+                <div class="campo">
+    <label>Crear una nueva categoría:</label>
+
+    <form action="/guardar_categoria" method="POST"
+          style="display: flex; gap: 8px;">
+
+        <input
+            type="text"
+            name="nombre_categoria"
+            placeholder="Ej. Ensaladas, Jugos, Adiciones"
+            maxlength="100"
+            required
+        >
+
+        <button type="submit"
+                style="background: #1a73e8; color: white;
+                       border: none; padding: 10px;
+                       border-radius: 6px; cursor: pointer;">
+            Agregar
+        </button>
+
+    </form>
+</div>
+
+<hr style="margin: 20px 0; border: 0; border-top: 1px solid #eee;">
+                <form action="/guardar_producto" method="POST">
+
+    <!-- NOMBRE DEL PRODUCTO -->
+    <div class="campo">
+        <label>Nombre del producto:</label>
+        <input
+            type="text"
+            name="nombre_p"
+            placeholder="Ej. Hamburguesa especial"
+            maxlength="120"
+            required
+        >
+    </div>
+
+    <!-- CATEGORÍA -->
+    <div class="campo">
+        <label>Categoría del producto:</label>
+
+        <select name="id_categoria" required>
+            <option value="">Selecciona una categoría</option>
+
+            {% for categoria in categorias %}
+                <option value="{{ categoria.id }}">
+                    {{ categoria.nombre }}
+                </option>
+            {% endfor %}
+        </select>
+
+        {% if not categorias %}
+            <small style="color: #e74c3c;">
+                Primero debes crear una categoría.
+            </small>
+        {% endif %}
+    </div>
+
+    <!-- DESCRIPCIÓN -->
+    <div class="campo">
+        <label>Descripción / Detalles:</label>
+        <textarea
+            name="descripcion"
+            placeholder="Describe los ingredientes o características del producto..."
+        ></textarea>
+    </div>
+
+    <!-- PRECIO -->
+    <div class="campo">
+        <label>Precio ($ COP):</label>
+        <input
+            type="number"
+            name="precio"
+            placeholder="Ej. 8500"
+            min="0"
+            step="0.01"
+            required
+        >
+    </div>
+
+    <button
+        type="submit"
+        class="btn-submit"
+        {% if not categorias %}disabled{% endif %}
+    >
+        🚀 Guardar en mi Menú
+    </button>
+
+</form>
+            </div>
+
+            <div class="card">
+                <h3>📋 Mi Catálogo Registrado</h3>
+                
+                <!-- ESTO SE CREA AUTOMÁTICAMENTE CON JAVASCRIPT -->
+                <div id="filtros-dinamicos" class="filtro-contenedor">
+                    <button class="btn-filtro active" onclick="filtrarTodos()">
+    🌐 Todos
+</button>
+                </div>
+
+                <div class="lista-productos">
+                    {% if productos %}
+                        {% for p in productos %}
+    <div class="producto-row" data-categoria="{{ p.categoria }}">
+        <div class="prod-info">
+            <h4>
+                {{ p.nombre_p }}
+                <span class="badge-cat">{{ p.categoria }}</span>
+            </h4>
+            <p>{{ p.descripcion }}</p>
+        </div>
+
+        <div class="prod-meta">
+            <span class="badge-precio">${{ p.precio }}</span>
+
+            <button type="button"
+                    class="btn-edit"
+                    title="Editar producto"
+                    data-id="{{ p.id }}"
+                    data-nombre="{{ p.nombre_p|e }}"
+                    data-descripcion="{{ (p.descripcion or '')|e }}"
+                    data-precio="{{ p.precio }}"
+                    onclick="abrirEdicionProducto(this)">
+                ✏️
+            </button>
+
+            <a href="/eliminar_producto/{{ p.id }}"
+               class="btn-delete"
+               onclick="return confirm('¿Seguro quieres eliminar este producto?')">
+                🗑️
+            </a>
+        </div>
+    </div>
+{% endfor %}
+                    {% else %}
+                        <p style="text-align: center; color: #95a5a6; padding: 20px;">Menú vacío. ¡Crea tus propios productos y secciones!</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="modal-edicion" class="modal-edicion">
+    <div class="modal-edicion-contenido">
+        <h3 id="titulo-edicion">Editar producto</h3>
+
+        <form id="form-edicion" method="POST">
+            <label>Descripción:</label>
+            <textarea id="edicion-descripcion"
+                      name="descripcion"
+                      rows="4"></textarea>
+
+            <label>Precio ($ COP):</label>
+            <input id="edicion-precio"
+                   type="number"
+                   name="precio"
+                   min="0"
+                   step="0.01"
+                   required>
+
+            <div class="modal-botones">
+                <button type="button"
+                        onclick="cerrarEdicionProducto()">
+                    Cancelar
+                </button>
+
+                <button type="submit" class="btn-submit">
+                    Guardar cambios
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const productos = document.querySelectorAll('.producto-row');
+        const contenedorFiltros = document.getElementById('filtros-dinamicos');
+        const categoriasUnicas = new Set();
+
+        productos.forEach(prod => {
+            const cat = prod.getAttribute('data-categoria');
+
+            if (cat && cat.trim() !== "") {
+                categoriasUnicas.add(cat.trim());
+            }
+        });
+
+        categoriasUnicas.forEach(categoria => {
+
+            const boton = document.createElement('button');
+
+            boton.className = 'btn-filtro';
+            boton.textContent = categoria;
+
+            boton.addEventListener('click', function () {
+                filtrarCatalogo(categoria, boton);
+            });
+
+            contenedorFiltros.appendChild(boton);
+        });
+
+        window.filtrarCatalogo = function (categoria, boton) {
+
+            document.querySelectorAll('.btn-filtro').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            boton.classList.add('active');
+
+            productos.forEach(prod => {
+
+                const catProducto = prod.getAttribute('data-categoria');
+
+                if (categoria === 'todos' || catProducto === categoria) {
+                    prod.classList.remove('hidden');
+                } else {
+                    prod.classList.add('hidden');
+                }
+
+            });
+        };
+
+        window.filtrarTodos = function () {
+            filtrarCatalogo('todos', document.querySelector('.btn-filtro'));
+        };
+
+    });
+    function abrirEdicionProducto(boton) {
+    const modal = document.getElementById("modal-edicion");
+    const formulario = document.getElementById("form-edicion");
+
+    document.getElementById("titulo-edicion").textContent =
+        "Editar " + boton.dataset.nombre;
+
+    document.getElementById("edicion-descripcion").value =
+        boton.dataset.descripcion;
+
+    document.getElementById("edicion-precio").value =
+        boton.dataset.precio;
+
+    formulario.action = "/actualizar_producto/" + boton.dataset.id;
+    modal.style.display = "flex";
+}
+
+function cerrarEdicionProducto() {
+    document.getElementById("modal-edicion").style.display = "none";
+}
+
+document.getElementById("modal-edicion").addEventListener("click", function(event) {
+    if (event.target === this) {
+        cerrarEdicionProducto();
+    }
+});
+</script>

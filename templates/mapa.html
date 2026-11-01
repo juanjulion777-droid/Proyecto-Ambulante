@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <style>html, body, #map {width: 100%; height: 100%; margin: 0; padding: 0; position: absolute; top: 0; bottom: 0; left: 0; right: 0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_12d3c2cb8ba4cab26ec69dc8fc62b6e7 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+</head>
+<body>
+    
+    
+    <div style="
+        position: fixed;
+        top: 20px;
+        left: 60px;
+        z-index: 9999;
+    ">
+        <a href="/"
+           style="
+               display: inline-block;
+               background: #247a45;
+               color: white;
+               padding: 12px 20px;
+               border-radius: 8px;
+               text-decoration: none;
+               font-family: Arial, sans-serif;
+               font-size: 14px;
+               font-weight: bold;
+               box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+           ">
+           ← Ir al inicio
+        </a>
+    </div>
+    
+    
+            <div class="folium-map" id="map_12d3c2cb8ba4cab26ec69dc8fc62b6e7" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_12d3c2cb8ba4cab26ec69dc8fc62b6e7 = L.map(
+                "map_12d3c2cb8ba4cab26ec69dc8fc62b6e7",
+                {
+                    center: [4.142, -73.626],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 16,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_abc8d8101fd4b1c73529eb48bd1bd87d = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_abc8d8101fd4b1c73529eb48bd1bd87d.addTo(map_12d3c2cb8ba4cab26ec69dc8fc62b6e7);
+        
+    
+            var marker_610891f0e57576c82b62b2bb48448213 = L.marker(
+                [40.32694, -76.853825],
+                {
+}
+            ).addTo(map_12d3c2cb8ba4cab26ec69dc8fc62b6e7);
+        
+    
+            var icon_9ddef907b337cad46ac0f2ee2c95e415 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "store",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_0caa1134d6570136b3431c2ee8ee55f6 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_086bb70eb114e81aafe022d89ae85506 = $(`<div id="html_086bb70eb114e81aafe022d89ae85506" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial, sans-serif; font-size: 14px; min-width: 190px;">                 <img src="/static/uploads/3124567895_358-3585448_frog-cartoon-clipart-frog-clip-art-imagenes-de-sapos-animados.png" style="width:100%; max-height:110px; object-fit:cover; border-radius:6px; margin-bottom:8px;">                 <h4 style="margin: 0 0 3px 0; font-size: 16px;">     <a href="/menu/1"        style="color: #1a73e8; text-decoration: none; font-weight: bold;">         AREPITAS     </a> </h4>                 <span style="font-size: 11px; background: #e8f0fe; color: #1a73e8; padding: 2px 6px; border-radius: 4px; font-weight: bold; text-transform: uppercase;">Fritos / Empanadas</span>                 <div style="margin-top: 8px;">                     <strong>⏰ Horario:</strong> 4:00 p.m - 10:00 p.m<br>                     <strong>📞 Contacto:</strong> 3124567895<br>                 </div>                 <hr style="border: 0; border-top: 1px solid #ddd; margin: 10px 0;">                 <a href="https://www.google.com/maps/dir/?api=1&destination=40.32694000,-76.85382500"                 target="_blank"                  rel="noopener noreferrer"                 style="background-color: #1a73e8; color: white; padding: 6px 12px; text-decoration: none; border-radius: 4px; display: inline-block; font-size: 12px; font-weight: bold; text-align: center; width:87%;">                 🗺️ Cómo llegar                 </a>             </div>         </div>`)[0];
+                popup_0caa1134d6570136b3431c2ee8ee55f6.setContent(html_086bb70eb114e81aafe022d89ae85506);
+            
+        
+
+        marker_610891f0e57576c82b62b2bb48448213.bindPopup(popup_0caa1134d6570136b3431c2ee8ee55f6)
+        ;
+
+        
+    
+    
+            marker_610891f0e57576c82b62b2bb48448213.bindTooltip(
+                `<div>
+                     AREPITAS
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_610891f0e57576c82b62b2bb48448213.setIcon(icon_9ddef907b337cad46ac0f2ee2c95e415);
+            
+    
+            var marker_79766627a0bd88b3bb7c49f3b04a75e1 = L.marker(
+                [40.32694, -76.853825],
+                {
+}
+            ).addTo(map_12d3c2cb8ba4cab26ec69dc8fc62b6e7);
+        
+    
+            var icon_a870804f2610b48c3b0affb5dbc12d84 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "store",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_ac232d9b4306a85ebe416cc0bf0f5e56 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_bf9979b4fd9023445ed76b3d696b4088 = $(`<div id="html_bf9979b4fd9023445ed76b3d696b4088" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial, sans-serif; font-size: 14px; min-width: 190px;">                 <img src="/static/uploads/3214569875_apart2.avif" style="width:100%; max-height:110px; object-fit:cover; border-radius:6px; margin-bottom:8px;">                 <h4 style="margin: 0 0 3px 0; font-size: 16px;">     <a href="/menu/2"        style="color: #1a73e8; text-decoration: none; font-weight: bold;">         FRESAS MG     </a> </h4>                 <span style="font-size: 11px; background: #e8f0fe; color: #1a73e8; padding: 2px 6px; border-radius: 4px; font-weight: bold; text-transform: uppercase;">Frutería / Ensaladas</span>                 <div style="margin-top: 8px;">                     <strong>⏰ Horario:</strong> 4:00 p.m - 10:00 p.m<br>                     <strong>📞 Contacto:</strong> 3214569875<br>                 </div>                 <hr style="border: 0; border-top: 1px solid #ddd; margin: 10px 0;">                 <a href="https://www.google.com/maps/dir/?api=1&destination=40.32694000,-76.85382500"                 target="_blank"                  rel="noopener noreferrer"                 style="background-color: #1a73e8; color: white; padding: 6px 12px; text-decoration: none; border-radius: 4px; display: inline-block; font-size: 12px; font-weight: bold; text-align: center; width:87%;">                 🗺️ Cómo llegar                 </a>             </div>         </div>`)[0];
+                popup_ac232d9b4306a85ebe416cc0bf0f5e56.setContent(html_bf9979b4fd9023445ed76b3d696b4088);
+            
+        
+
+        marker_79766627a0bd88b3bb7c49f3b04a75e1.bindPopup(popup_ac232d9b4306a85ebe416cc0bf0f5e56)
+        ;
+
+        
+    
+    
+            marker_79766627a0bd88b3bb7c49f3b04a75e1.bindTooltip(
+                `<div>
+                     FRESAS MG
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_79766627a0bd88b3bb7c49f3b04a75e1.setIcon(icon_a870804f2610b48c3b0affb5dbc12d84);
+            
+    
+            var marker_1c488ec97c567d3bed1040d7515807f3 = L.marker(
+                [4.11269315, -73.63419392],
+                {
+}
+            ).addTo(map_12d3c2cb8ba4cab26ec69dc8fc62b6e7);
+        
+    
+            var icon_db56c0f3edabc0d3e5e8ecd427b24bf5 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "store",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_6402fe84f2291a3ab4284399018c8c18 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_0408467a58a55b8fcf876ad0b16ac065 = $(`<div id="html_0408467a58a55b8fcf876ad0b16ac065" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial, sans-serif; font-size: 14px; min-width: 190px;">                 <img src="/static/uploads/3256984455_ensalada.jpg" style="width:100%; max-height:110px; object-fit:cover; border-radius:6px; margin-bottom:8px;">                 <h4 style="margin: 0 0 3px 0; font-size: 16px;">     <a href="/menu/3"        style="color: #1a73e8; text-decoration: none; font-weight: bold;">         POPO     </a> </h4>                 <span style="font-size: 11px; background: #e8f0fe; color: #1a73e8; padding: 2px 6px; border-radius: 4px; font-weight: bold; text-transform: uppercase;">Comida Rápida</span>                 <div style="margin-top: 8px;">                     <strong>⏰ Horario:</strong> 4:00 p.m - 10:00 p.m<br>                     <strong>📞 Contacto:</strong> 3256984455<br>                 </div>                 <hr style="border: 0; border-top: 1px solid #ddd; margin: 10px 0;">                 <a href="https://www.google.com/maps/dir/?api=1&destination=4.11269315,-73.63419392"                 target="_blank"                  rel="noopener noreferrer"                 style="background-color: #1a73e8; color: white; padding: 6px 12px; text-decoration: none; border-radius: 4px; display: inline-block; font-size: 12px; font-weight: bold; text-align: center; width:87%;">                 🗺️ Cómo llegar                 </a>             </div>         </div>`)[0];
+                popup_6402fe84f2291a3ab4284399018c8c18.setContent(html_0408467a58a55b8fcf876ad0b16ac065);
+            
+        
+
+        marker_1c488ec97c567d3bed1040d7515807f3.bindPopup(popup_6402fe84f2291a3ab4284399018c8c18)
+        ;
+
+        
+    
+    
+            marker_1c488ec97c567d3bed1040d7515807f3.bindTooltip(
+                `<div>
+                     POPO
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_1c488ec97c567d3bed1040d7515807f3.setIcon(icon_db56c0f3edabc0d3e5e8ecd427b24bf5);
+            
+</script>
+</html>
