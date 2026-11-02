@@ -29,11 +29,13 @@ os.makedirs(CARPETA_SUBIDAS, exist_ok=True)
 def obtener_conexion_db():
     return pymysql.connect(
         host=os.getenv("DB_HOST", "localhost"),
+        port=int(os.getenv("DB_PORT", "3306")),
         user=os.getenv("DB_USER", "root"),
-        password=os.getenv("DB_PASSWORD", "03Andrepabamo10#"),
+        password=os.getenv("DB_PASSWORD"),
         database=os.getenv("DB_NAME", "proyecto_ambulantes"),
         cursorclass=pymysql.cursors.DictCursor
     )
+    
 
 
 def asegurar_columna_asistencia(cursor):
